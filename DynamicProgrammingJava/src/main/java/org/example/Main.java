@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Main {
 
@@ -34,6 +35,32 @@ public class Main {
         memo.put(n, result);
 
         return result;
+    }
+
+    public static boolean sumPossible(int amount, List<Integer> numbers) {
+        return sumPossible(amount, numbers, new HashMap<>());
+    }
+
+    public static boolean sumPossible(int amount, List<Integer> numbers, HashMap<Integer, Boolean> memo) {
+        if (amount == 0) return true;
+
+        if (amount < 0) {
+            return false;
+        }
+
+        if (memo.containsKey(amount)) {
+            memo.put(amount, true);
+            return memo.get(amount);
+        }
+
+        for (int num : numbers) {
+            int subAmount = amount - num;
+            if (sumPossible(subAmount, numbers))
+                return true;
+        }
+
+        memo.put(amount, false);
+        return false;
     }
 
     public static void main(String[] args) {
