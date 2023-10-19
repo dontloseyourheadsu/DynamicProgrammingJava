@@ -108,19 +108,22 @@ public class Main {
         return result;
     }
 
-    public static int maxPathSum(List<List<String>> grid) {
-        return maxPathSum(0,0, grid, new HashMap<>();
+    public static int maxPathSum(List<List<Integer>> grid) {
+        return (int) maxPathSum(0,0, grid, new HashMap<>());
     }
 
-    public static int maxPathSum(int r, int c, List<List<String>> grid, HashMap<List<Integer>, Integer> memo) {
-        if (r == grid.size() || c == grid.get(0).size()) return 0;
-        if (Objects.equals(grid.get(r).get(c), "X")) return 0;
+    public static double maxPathSum(int r, int c, List<List<Integer>> grid, HashMap<List<Integer>, Double> memo) {
+        if (r == grid.size() || c == grid.get(0).size()) return Double.NEGATIVE_INFINITY;
         if (r == grid.size() - 1 && c == grid.get(0).size() - 1) return 1;
 
         List<Integer> pos = List.of(r, c);
         if (memo.containsKey(pos)) return memo.get(pos);
 
-        int result = maxPathSum(r + 1, c, grid, memo) + maxPathSum(r + 1, c, grid, memo);
+        double result = grid.get(r).get(c) +
+                Math.max(
+                maxPathSum(r + 1, c, grid, memo),
+                maxPathSum(r + 1, c, grid, memo)
+                );
         memo.put(pos, result);
         return result;
     }
