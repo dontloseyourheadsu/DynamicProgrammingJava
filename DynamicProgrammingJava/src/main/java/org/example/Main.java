@@ -170,8 +170,59 @@ public class Main {
         return result;
     }
 
+    public static int countingChange(int amount, List<Integer> coins) {
+        return countingChange(amount, 0, coins, new HashMap<>());
+    }
+
+    public static int countingChange(int amount, int coinIndex, List<Integer> coins, HashMap<List<Integer>, Integer> memo) {
+        if (amount == 0) return 1;
+        if (coinIndex >= coins.size()) {
+            return 0;
+        }
+
+        List<Integer> key = List.of(amount, coinIndex);
+        if (memo.containsKey(key)) return memo.get(key);
+
+        int totalWays = 0;
+        int value = coins.get(coinIndex);
+
+        for (int qty = 0; qty * value <= amount; qty++) {
+            int subAmount = amount - (qty * value);
+            totalWays += countingChange(subAmount, coinIndex + 1, coins, memo);
+        }
+
+        memo.put(key, totalWays);
+        return totalWays;
+    }
+
     public static void main(String[] args) {
         System.out.println(fib(8));
         System.out.println(tribonacci(8));
+        System.out.println(sumPossible(7, List.of(2, 3)));
+        System.out.println(minChange(7, List.of(1, 5, 10, 25)));
+        System.out.println(countPaths(List.of(
+                List.of("O", "O", "O"),
+                List.of("O", "X", "O"),
+                List.of("O", "O", "O")
+        )));
+        System.out.println(maxPathSum(List.of(
+                List.of(1, 2, 3),
+                List.of(4, 5, 6),
+                List.of(7, 8, 9)
+        )));
+        System.out.println(nonAdjecentSum(List.of(1, 2, 3, 4, 5)));
+        System.out.println(sumSquares(13));
+        System.out.println(countingChange(4, List.of(1, 2, 3)));
+        // Expected values
+        // 21
+        // 44
+        // true
+        // 3
+        // 2
+        // 2
+        // 3
+        // 2
+        // 2
+        // 2
     }
 }
