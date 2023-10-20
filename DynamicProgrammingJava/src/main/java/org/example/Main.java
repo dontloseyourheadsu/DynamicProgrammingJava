@@ -92,7 +92,7 @@ public class Main {
     }
 
     public static int countPaths(List<List<String>> grid) {
-        return countPaths(0,0, grid, new HashMap<>();
+        return countPaths(0,0, grid, new HashMap<>());
     }
 
     public static int countPaths(int r, int c, List<List<String>> grid, HashMap<List<Integer>, Integer> memo) {
@@ -140,9 +140,32 @@ public class Main {
 
         var result = Math.max(
         nums.get(i) + nonAdjecentSum(nums, i + 2, memo),
-                nonAdjecentSum(nums, i + 1, memo))
+                nonAdjecentSum(nums, i + 1, memo));
 
         memo.put(i, result);
+
+        return result;
+    }
+
+    public static int sumSquares(int number) {
+        return (int) sumSquares(number, new HashMap<>());
+    }
+
+    public static double sumSquares(int number, HashMap<Integer, Double> memo) {
+        if (number == 0) return 0;
+
+        if (memo.containsKey(number)) return memo.get(number);
+
+        double minSquares = Double.POSITIVE_INFINITY;
+        for (int i = 1; i <= Math.sqrt(number); i ++) {
+            int square = i * i;
+            double numSquares = 1 + sumSquares(number - square, memo);
+            if (numSquares < minSquares) {
+                minSquares = numSquares;
+            }
+        }
+        double result = minSquares;
+        memo.put(number, result);
 
         return result;
     }
