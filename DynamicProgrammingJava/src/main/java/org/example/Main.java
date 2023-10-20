@@ -128,6 +128,25 @@ public class Main {
         return result;
     }
 
+    public static int nonAdjecentSum(List<Integer> nums) {
+        return nonAdjecentSum(nums, 0, new HashMap<>());
+    }
+
+
+    public static int nonAdjecentSum(List<Integer> nums, int i, HashMap<Integer, Integer> memo) {
+        if (i > nums.size()) return 0;
+
+        if (memo.containsKey(i)) return memo.get(i);
+
+        var result = Math.max(
+        nums.get(i) + nonAdjecentSum(nums, i + 2, memo),
+                nonAdjecentSum(nums, i + 1, memo))
+
+        memo.put(i, result);
+
+        return result;
+    }
+
     public static void main(String[] args) {
         System.out.println(fib(8));
         System.out.println(tribonacci(8));
